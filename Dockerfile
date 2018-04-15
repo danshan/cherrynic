@@ -1,6 +1,8 @@
 FROM maven:3.3.9-jdk-8
 MAINTAINER Dan <i@shanhh.com>
 
+ENV SERVER_PORT 8080
+ENV DAOCLOUD_TOKEN token
 ENV PROJ_DIR /tmp/project
 ENV JAR_PATH ${PROJ_DIR}/cherrynic-web/target/application.jar
 ENV DIST_DIR /var/lib/app
