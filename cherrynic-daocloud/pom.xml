@@ -8,6 +8,7 @@
         <groupId>com.shanhh.genie</groupId>
         <artifactId>cherrynic</artifactId>
         <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>cherrynic-daocloud</artifactId>
