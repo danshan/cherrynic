@@ -1,0 +1,6 @@
+cn:
+  daocloud:
+    token:
+
+server:
+  port: 9082
