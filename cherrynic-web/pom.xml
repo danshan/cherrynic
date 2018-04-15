@@ -20,7 +20,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.shanhh.genie</groupId>
             <artifactId>cherrynic-daocloud</artifactId>
@@ -30,9 +29,6 @@
         <dependency>
             <groupId>com.tmall.aligenie</groupId>
             <artifactId>aligenie-intent-sematic</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/aligenie-intent-sematic.jar</systemPath>
         </dependency>
 
         <dependency>
