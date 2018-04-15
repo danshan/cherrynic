@@ -64,6 +64,6 @@ public class DaocloudServiceImpl implements DaocloudService {
         if (query.getSlotEntities() == null) {
             return Collections.emptyMap();
         }
-        return query.getSlotEntities().stream().collect(Collectors.toMap(SlotEntity::getSlotName, SlotEntity::getStandardValue));
+        return query.getSlotEntities().stream().collect(Collectors.toMap(SlotEntity::getIntentParameterName, SlotEntity::getStandardValue));
     }
 }
