@@ -12,4 +12,4 @@ RUN mvn package
 RUN cp ${JAR_PATH} ${DIST_DIR}/application.jar
 
 EXPOSE 8080
-ENTRYPOINT ["/bin/sh", "-c", "java -jar ${DIST_DIR}/application.jar"]
+ENTRYPOINT ["/bin/sh", "-c", "java -Dserver.port=${SERVER_PORT} -Djava.security.egd=file:/dev/./urandom -jar ${DIST_DIR}/application.jar"]
