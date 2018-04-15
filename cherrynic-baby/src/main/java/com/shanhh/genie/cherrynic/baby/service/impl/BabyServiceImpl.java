@@ -2,12 +2,18 @@ package com.shanhh.genie.cherrynic.baby.service.impl;
 
 import com.alibaba.da.coin.ide.spi.meta.ExecuteCode;
 import com.alibaba.da.coin.ide.spi.meta.ResultType;
+import com.alibaba.da.coin.ide.spi.meta.SlotEntity;
 import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
 import com.shanhh.genie.cherrynic.baby.service.BabyService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author shanhonghao
@@ -17,6 +23,44 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BabyServiceImpl implements BabyService {
 
+
+    @Override
+    public ResultModel<TaskResult> markAction(TaskQuery query) {
+        Map<String, String> params = collectParams(query);
+        String action = params.get("action");
+        if (StringUtils.isBlank(action)) {
+            return errorResult("我好像没听明白宝宝做了什么");
+        }
+        switch (action) {
+            case "bowel":
+                return this.markBowel(query);
+            case "urinate":
+                return this.markUrinate(query);
+            case "nursing":
+                return this.markNursing(query);
+            default:
+                return errorResult("我好像没听明白宝宝做了什么");
+        }
+    }
+
+    private ResultModel<TaskResult> errorResult(String message) {
+        ResultModel<TaskResult> resultModel = new ResultModel<>();
+        TaskResult result = new TaskResult();
+        result.setResultType(ResultType.RESULT);
+        result.setExecuteCode(ExecuteCode.SUCCESS);
+        result.setReply(message);
+
+        resultModel.setReturnCode("0");
+        resultModel.setReturnValue(result);
+        return resultModel;
+    }
+
+    private Map<String, String> collectParams(TaskQuery query) {
+        if (query.getSlotEntities() == null) {
+            return Collections.emptyMap();
+        }
+        return query.getSlotEntities().stream().collect(Collectors.toMap(SlotEntity::getIntentParameterName, SlotEntity::getStandardValue));
+    }
 
     @Override
     public ResultModel<TaskResult> markBowel(TaskQuery query) {

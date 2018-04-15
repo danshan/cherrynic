@@ -26,25 +26,11 @@ public class BabyController {
     @Resource
     private BabyService babyService;
 
-    @RequestMapping(value = "markBowel", method = RequestMethod.POST)
+    @RequestMapping(value = "markAction", method = RequestMethod.POST)
     public ResultModel<TaskResult> markBowel(@RequestBody String taskQuery) {
         log.info("taskQuery: {}", taskQuery);
         TaskQuery query = MetaFormat.parseToQuery(taskQuery);
-        return babyService.markBowel(query);
+        return babyService.markAction(query);
     }
 
-    @RequestMapping(value = "markUrinate", method = RequestMethod.POST)
-    public ResultModel<TaskResult> markUrinate(@RequestBody String taskQuery) {
-        log.info("taskQuery: {}", taskQuery);
-        TaskQuery query = MetaFormat.parseToQuery(taskQuery);
-        return babyService.markUrinate(query);
-    }
-
-    @RequestMapping(value = "markNursing", method = RequestMethod.POST)
-    public ResultModel<TaskResult> markNursing(@RequestBody String taskQuery) {
-        log.info("taskQuery: {}", taskQuery);
-        TaskQuery query = MetaFormat.parseToQuery(taskQuery);
-        return babyService.markNursing(query);
-    }
-    
 }

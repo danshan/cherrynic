@@ -10,6 +10,8 @@ import com.alibaba.da.coin.ide.spi.standard.TaskResult;
  */
 public interface BabyService {
 
+    ResultModel<TaskResult> markAction(TaskQuery query);
+
     /**
      * 标记大便
      */
@@ -24,4 +26,5 @@ public interface BabyService {
      * 标记喂奶
      */
     ResultModel<TaskResult> markNursing(TaskQuery query);
+
 }
