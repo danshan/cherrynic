@@ -27,17 +27,11 @@ public class DaocloudController {
     private DaocloudService daocloudService;
 
     @RequestMapping(value = "apps", method = RequestMethod.POST)
-    public ResultModel<TaskResult> genieCall(@RequestBody String taskQuery) {
+    public ResultModel<TaskResult> findApps(@RequestBody String taskQuery) {
         log.info("taskQuery: {}", taskQuery);
         TaskQuery query = MetaFormat.parseToQuery(taskQuery);
 
-        ResultModel<TaskResult> resultModel = new ResultModel<TaskResult>();
-        daocloudService.findApps();
-
-        TaskResult result = new TaskResult();
-        resultModel.setReturnCode("0");
-        resultModel.setReturnValue(result);
-        return resultModel;
+        return daocloudService.findApps(query);
     }
 
 }
