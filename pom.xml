@@ -34,7 +34,7 @@
         <module>cherrynic-daocloud</module>
         <module>cherrynic-web</module>
     </modules>
-    
+
     <repositories>
         <repository>
             <id>alimaven</id>
