@@ -9,7 +9,7 @@ RUN mkdir -p ${DIST_DIR}
 ADD . ${PROJ_DIR}
 WORKDIR ${PROJ_DIR}
 RUN mvn package
-RUN cp ${JAR_PATH} ${DIST_DIR}/applicaiton.jar
+RUN cp ${JAR_PATH} ${DIST_DIR}/application.jar
 
 EXPOSE 8080
 ENTRYPOINT ["/bin/sh", "-c", "java -jar ${DIST_DIR}/application.jar"]
