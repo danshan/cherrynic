@@ -73,6 +73,6 @@ tags
 *.log
 .logs
 
-application.yml
+#application.yml
 .gradle
 build
