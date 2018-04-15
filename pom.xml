@@ -31,6 +31,7 @@
     </properties>
 
     <modules>
+        <module>cherrynic-commons</module>
         <module>cherrynic-daocloud</module>
         <module>cherrynic-web</module>
     </modules>
@@ -40,11 +41,6 @@
             <id>alimaven</id>
             <name>aliyun maven</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>local</id>
-            <name>local maven</name>
-            <url>file://${project.basedir}/repo/</url>
         </repository>
     </repositories>
 
@@ -56,12 +52,6 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.tmall.aligenie</groupId>
-                <artifactId>aligenie-intent-sematic</artifactId>
-                <version>1.0.0</version>
             </dependency>
 
             <dependency>

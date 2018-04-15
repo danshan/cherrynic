@@ -27,11 +27,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.tmall.aligenie</groupId>
-            <artifactId>aligenie-intent-sematic</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>

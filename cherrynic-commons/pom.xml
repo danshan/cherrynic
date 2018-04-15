@@ -11,28 +11,21 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>cherrynic-daocloud</artifactId>
+    <artifactId>cherrynic-commons</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>com.shanhh.genie</groupId>
-            <artifactId>cherrynic-commons</artifactId>
-            <version>${parent.version}</version>
+            <groupId>com.tmall</groupId>
+            <artifactId>aligenie-intent-sematic</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/aligenie-intent-sematic.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-feign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-jackson</artifactId>
         </dependency>
     </dependencies>
 
