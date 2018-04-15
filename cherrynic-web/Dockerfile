@@ -1,22 +1,16 @@
 FROM maven:3.3.9-jdk-8
 MAINTAINER Dan <i@shanhh.com>
 
-ENV APP_USER webhook
-ENV DATA_DIR /opt/data
-ENV APP_NAME webhook-slack
-
+ENV PROJ_DIR ~/project
+ENV JAR_PATH ${PROJ_DIR}/cherrynic-web/target/application.jar
+ENV DIST_DIR /var/lib/app
 RUN mkdir -p ${DATA_DIR}
-RUN useradd ${APP_USER} -m
 
-ADD . ${DATA_DIR}/${APP_NAME}
-RUN chown -R ${APP_USER} ${DATA_DIR}
-
-USER ${APP_USER}
-
-WORKDIR ${DATA_DIR}/${APP_NAME}
-RUN mvn clean package
-
-ADD bin/entrypoint.sh ${DATA_DIR}/entrypoint.sh
+ADD . ${PROJ_DIR}
+WORKDIR ${PROJ_DIR}
+RUN mvn package
+RUN cp ${JAR_PATH} #{DIST_DIR}/applicaiton.jar
 
 EXPOSE 8080
-ENTRYPOINT ["/opt/data/entrypoint.sh"]
+WORKDIR ${DIST_DIR}
+ENTRYPOINT ["/bin/sh", "-c", "java -jar application.jar"]
