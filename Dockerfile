@@ -4,7 +4,7 @@ MAINTAINER Dan <i@shanhh.com>
 ENV PROJ_DIR ~/project
 ENV JAR_PATH ${PROJ_DIR}/cherrynic-web/target/application.jar
 ENV DIST_DIR /var/lib/app
-RUN mkdir -p ${DATA_DIR}
+RUN mkdir -p ${DIST_DIR}
 
 ADD . ${PROJ_DIR}
 WORKDIR ${PROJ_DIR}
