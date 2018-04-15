@@ -31,6 +31,8 @@
             <groupId>com.tmall.aligenie</groupId>
             <artifactId>aligenie-intent-sematic</artifactId>
             <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/aligenie-intent-sematic.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -53,6 +55,7 @@
                 <configuration>
                     <mainClass>com.shanhh.genie.cherrynic.web.Application</mainClass>
                     <layout>ZIP</layout>
+                    <includeSystemScope>true</includeSystemScope>
                 </configuration>
                 <executions>
                     <execution>
@@ -65,26 +68,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>2.5</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <configuration>
-                            <groupId>com.tmall.aligenie</groupId>
-                            <artifactId>aligenie-intent-sematic</artifactId>
-                            <version>1.0.0</version>
-                            <packaging>jar</packaging>
-                            <file>${basedir}/lib/aligenie-intent-sematic.jar</file>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
 
