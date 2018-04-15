@@ -34,6 +34,14 @@
         <module>cherrynic-daocloud</module>
         <module>cherrynic-web</module>
     </modules>
+    
+    <repositories>
+        <repository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
