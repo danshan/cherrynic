@@ -19,9 +19,11 @@
     </properties>
 
     <dependencies>
+
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.shanhh.genie</groupId>
+            <artifactId>cherrynic-daocloud</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -31,14 +33,14 @@
             <scope>system</scope>
             <systemPath>${basedir}/libs/aligenie-intent-sematic.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-feign</artifactId>
         </dependency>
     </dependencies>
 

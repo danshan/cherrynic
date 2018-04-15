@@ -22,6 +22,7 @@
 
         <spring-cloud.version>Camden.SR7</spring-cloud.version>
 
+        <feign.version>9.4.0</feign.version>
         <lombok.version>1.16.18</lombok.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -30,6 +31,7 @@
     </properties>
 
     <modules>
+        <module>cherrynic-daocloud</module>
         <module>cherrynic-web</module>
     </modules>
 
@@ -44,10 +46,21 @@
             </dependency>
 
             <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-jackson</artifactId>
+                <version>${feign.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
