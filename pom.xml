@@ -33,6 +33,7 @@
     <modules>
         <module>cherrynic-commons</module>
         <module>cherrynic-daocloud</module>
+        <module>cherrynic-baby</module>
         <module>cherrynic-web</module>
     </modules>
 

@@ -25,6 +25,11 @@
             <artifactId>cherrynic-daocloud</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.shanhh.genie</groupId>
+            <artifactId>cherrynic-baby</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
