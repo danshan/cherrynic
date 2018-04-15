@@ -12,5 +12,4 @@ RUN mvn package
 RUN cp ${JAR_PATH} ${DIST_DIR}/applicaiton.jar
 
 EXPOSE 8080
-WORKDIR ${DIST_DIR}
-ENTRYPOINT ["/bin/sh", "-c", "java -jar application.jar"]
+ENTRYPOINT ["/bin/sh", "-c", "java -jar ${DIST_DIR}/application.jar"]
