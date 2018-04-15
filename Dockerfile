@@ -8,8 +8,9 @@ RUN mkdir -p ${DIST_DIR}
 
 ADD . ${PROJ_DIR}
 WORKDIR ${PROJ_DIR}
+RUN pwd
+RUN ls -al .
 RUN mvn package
-RUN ls -al ~/project
 RUN cp ${JAR_PATH} ${DIST_DIR}/applicaiton.jar
 
 EXPOSE 8080
