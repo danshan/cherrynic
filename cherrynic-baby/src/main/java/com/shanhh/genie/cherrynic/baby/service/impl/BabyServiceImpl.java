@@ -6,9 +6,13 @@ import com.alibaba.da.coin.ide.spi.meta.SlotEntity;
 import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
+import com.shanhh.genie.cherrynic.baby.repo.ActionLogRepo;
+import com.shanhh.genie.cherrynic.baby.repo.entity.ActionLog;
 import com.shanhh.genie.cherrynic.baby.service.BabyService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -23,6 +27,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BabyServiceImpl implements BabyService {
 
+    @Qualifier("actionLogRepo")
+    @Autowired
+    private ActionLogRepo actionLogRepo;
 
     @Override
     public ResultModel<TaskResult> markAction(TaskQuery query) {
@@ -94,6 +101,12 @@ public class BabyServiceImpl implements BabyService {
         TaskResult result = new TaskResult();
         result.setResultType(ResultType.RESULT);
         result.setExecuteCode(ExecuteCode.SUCCESS);
+
+        ActionLog actionLog = new ActionLog();
+        actionLog.setAction("nursing");
+        actionLog.setComment("comment");
+        actionLogRepo.save(actionLog);
+
         result.setReply("宝宝喂奶时间记好啦");
 
         resultModel.setReturnCode("0");

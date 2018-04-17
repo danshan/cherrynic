@@ -76,3 +76,4 @@ tags
 application.yml
 .gradle
 build
+docker-compose.yml
