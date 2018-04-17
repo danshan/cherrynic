@@ -3,6 +3,13 @@ MAINTAINER Dan <i@shanhh.com>
 
 ENV SERVER_PORT 8080
 ENV DAOCLOUD_TOKEN token
+ENV CHERRYNIC_DATABASE_URL jdbc:mysql://mysql:3306/cherrynic?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&verifyServerCertificate=false
+ENV CHERRYNIC_DATABASE_USERNAME username
+ENV CHERRYNIC_DATABASE_PASSWORD password
+ENV DAOCLOUD_TOKEN token
+ENV DAOCLOUD_TOKEN token
+
+
 ENV PROJ_DIR /tmp/project
 ENV JAR_PATH ${PROJ_DIR}/cherrynic-web/target/application.jar
 ENV DIST_DIR /var/lib/app
