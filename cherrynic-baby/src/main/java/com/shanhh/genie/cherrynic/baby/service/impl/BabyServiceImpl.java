@@ -37,7 +37,7 @@ public class BabyServiceImpl implements BabyService {
     private static final String ACTION_URINATE = "urinate";
     private static final String ACTION_NURSING = "nursing";
 
-    private static final String[] SONG_IDS = {"4124", "4125"};
+    private static final String[] SONG_IDS = {"4126", "4127"};
 
 
     @Override
