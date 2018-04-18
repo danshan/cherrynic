@@ -1,20 +1,22 @@
 package com.shanhh.genie.cherrynic.baby.service.impl;
 
+import com.alibaba.da.coin.ide.spi.meta.Action;
 import com.alibaba.da.coin.ide.spi.meta.ExecuteCode;
 import com.alibaba.da.coin.ide.spi.meta.ResultType;
 import com.alibaba.da.coin.ide.spi.meta.SlotEntity;
 import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
+import com.google.common.collect.Lists;
 import com.shanhh.genie.cherrynic.baby.repo.ActionLogRepo;
 import com.shanhh.genie.cherrynic.baby.repo.entity.ActionLog;
 import com.shanhh.genie.cherrynic.baby.service.BabyService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
@@ -28,13 +30,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BabyServiceImpl implements BabyService {
 
-    @Qualifier("actionLogRepo")
-    @Autowired
+    @Resource
     private ActionLogRepo actionLogRepo;
 
     private static final String ACTION_BOWEL = "bowel";
     private static final String ACTION_URINATE = "urinate";
     private static final String ACTION_NURSING = "nursing";
+
+    private static final String[] SONG_IDS = {"4124", "4125"};
 
 
     @Override
@@ -115,6 +118,25 @@ public class BabyServiceImpl implements BabyService {
         resultModel.setReturnCode("0");
         resultModel.setReturnValue(result);
         return resultModel;
+    }
+
+    @Override
+    public ResultModel<TaskResult> playSongs(TaskQuery query) {
+        ResultModel<TaskResult> resultModel = new ResultModel<>();
+        TaskResult result = new TaskResult();
+        result.setResultType(ResultType.RESULT);
+        result.setExecuteCode(ExecuteCode.SUCCESS);
+        result.setReply("");
+        result.setActions(Lists.newArrayList(buildSongsAction()));
+        resultModel.setReturnCode("0");
+        resultModel.setReturnValue(result);
+        return resultModel;
+    }
+
+    private Action buildSongsAction() {
+        Action action = new Action("audioPlayGenieSource");
+        action.addProperty("audioGenieId", SONG_IDS[RandomUtils.nextInt(SONG_IDS.length)]);
+        return action;
     }
 
     private void saveActionLog(String action, int amount, Date startTime, Date endTime, String comment) {

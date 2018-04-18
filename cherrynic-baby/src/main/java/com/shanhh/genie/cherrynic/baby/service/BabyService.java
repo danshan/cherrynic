@@ -27,4 +27,11 @@ public interface BabyService {
      */
     ResultModel<TaskResult> markNursing(TaskQuery query);
 
+    /**
+     * 播放儿歌
+     *
+     * @param query
+     * @return
+     */
+    ResultModel<TaskResult> playSongs(TaskQuery query);
 }

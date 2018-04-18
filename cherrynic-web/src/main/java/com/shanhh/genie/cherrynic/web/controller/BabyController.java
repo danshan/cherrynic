@@ -33,4 +33,10 @@ public class BabyController {
         return babyService.markAction(query);
     }
 
+    @RequestMapping(value = "playSongs", method = RequestMethod.POST)
+    public ResultModel<TaskResult> playSongs(@RequestBody String taskQuery) {
+        log.info("taskQuery: {}", taskQuery);
+        TaskQuery query = MetaFormat.parseToQuery(taskQuery);
+        return babyService.playSongs(query);
+    }
 }
