@@ -18,4 +18,4 @@ RUN mvn package
 RUN cp ${JAR_PATH} ${DIST_DIR}/application.jar
 
 EXPOSE ${SERVER_PORT}
-ENTRYPOINT ["/bin/sh", "-c", "java -Dserver.port=${SERVER_PORT} -Dcn.daocloud.token=${DAOCLOUD_TOKEN} -Djava.security.egd=file:/dev/./urandom -jar ${DIST_DIR}/application.jar"]
+ENTRYPOINT ["/bin/sh", "-c", "java -Dserver.port=${SERVER_PORT} -Dcn.daocloud.token=${DAOCLOUD_TOKEN} -Dspring.datasource.url=${CHERRYNIC_DATABASE_URL} -Dspring.datasource.username=${CHERRYNIC_DATABASE_USERNAME} -Dspring.datasource.password=${CHERRYNIC_DATABASE_PASSWORD} -Djava.security.egd=file:/dev/./urandom -jar ${DIST_DIR}/application.jar"]
