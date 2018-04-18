@@ -17,5 +17,8 @@ WORKDIR ${PROJ_DIR}
 RUN mvn package
 RUN cp ${JAR_PATH} ${DIST_DIR}/application.jar
 
+RUN rm -rf /etc/localtime && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' > /etc/timezone
+
 EXPOSE ${SERVER_PORT}
-ENTRYPOINT ["/bin/sh", "-c", "java -Duser.timezone=GMT+08 -Dserver.port=${SERVER_PORT} -Dcn.daocloud.token=${DAOCLOUD_TOKEN} -Dspring.datasource.url=${CHERRYNIC_DATABASE_URL} -Dspring.datasource.username=${CHERRYNIC_DATABASE_USERNAME} -Dspring.datasource.password=${CHERRYNIC_DATABASE_PASSWORD} -Djava.security.egd=file:/dev/./urandom -jar ${DIST_DIR}/application.jar"]
+ENTRYPOINT ["/bin/sh", "-c", "java -Dfile.encoding=UTF8 -Duser.timezone=GMT+08 -Dserver.port=${SERVER_PORT} -Dcn.daocloud.token=${DAOCLOUD_TOKEN} -Dspring.datasource.url=${CHERRYNIC_DATABASE_URL} -Dspring.datasource.username=${CHERRYNIC_DATABASE_USERNAME} -Dspring.datasource.password=${CHERRYNIC_DATABASE_PASSWORD} -Djava.security.egd=file:/dev/./urandom -jar ${DIST_DIR}/application.jar"]
