@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,11 @@ public class BabyServiceImpl implements BabyService {
     @Autowired
     private ActionLogRepo actionLogRepo;
 
+    private static final String ACTION_BOWEL = "bowel";
+    private static final String ACTION_URINATE = "urinate";
+    private static final String ACTION_NURSING = "nursing";
+
+
     @Override
     public ResultModel<TaskResult> markAction(TaskQuery query) {
         Map<String, String> params = collectParams(query);
@@ -38,12 +44,13 @@ public class BabyServiceImpl implements BabyService {
         if (StringUtils.isBlank(action)) {
             return errorResult("我好像没听明白宝宝做了什么");
         }
+
         switch (action) {
-            case "bowel":
+            case ACTION_BOWEL:
                 return this.markBowel(query);
-            case "urinate":
+            case ACTION_URINATE:
                 return this.markUrinate(query);
-            case "nursing":
+            case ACTION_NURSING:
                 return this.markNursing(query);
             default:
                 return errorResult("我好像没听明白宝宝做了什么");
@@ -71,6 +78,7 @@ public class BabyServiceImpl implements BabyService {
 
     @Override
     public ResultModel<TaskResult> markBowel(TaskQuery query) {
+        this.saveActionLog(ACTION_BOWEL, 0, null, null, null);
         ResultModel<TaskResult> resultModel = new ResultModel<>();
         TaskResult result = new TaskResult();
         result.setResultType(ResultType.RESULT);
@@ -84,6 +92,7 @@ public class BabyServiceImpl implements BabyService {
 
     @Override
     public ResultModel<TaskResult> markUrinate(TaskQuery query) {
+        this.saveActionLog(ACTION_URINATE, 0, null, null, null);
         ResultModel<TaskResult> resultModel = new ResultModel<>();
         TaskResult result = new TaskResult();
         result.setResultType(ResultType.RESULT);
@@ -97,21 +106,22 @@ public class BabyServiceImpl implements BabyService {
 
     @Override
     public ResultModel<TaskResult> markNursing(TaskQuery query) {
+        this.saveActionLog(ACTION_NURSING, 0, null, null, null);
         ResultModel<TaskResult> resultModel = new ResultModel<>();
         TaskResult result = new TaskResult();
         result.setResultType(ResultType.RESULT);
         result.setExecuteCode(ExecuteCode.SUCCESS);
-
-        ActionLog actionLog = new ActionLog();
-        actionLog.setAction("nursing");
-        actionLog.setComment("comment");
-        actionLogRepo.save(actionLog);
-
         result.setReply("宝宝喂奶时间记好啦");
-
         resultModel.setReturnCode("0");
         resultModel.setReturnValue(result);
         return resultModel;
+    }
+
+    private void saveActionLog(String action, int amount, Date startTime, Date endTime, String comment) {
+        ActionLog actionLog = new ActionLog();
+        actionLog.setAction(StringUtils.trimToEmpty(action));
+        actionLog.setComment(StringUtils.trimToEmpty(comment));
+        actionLogRepo.save(actionLog);
     }
 
 }
