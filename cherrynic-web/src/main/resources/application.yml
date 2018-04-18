@@ -4,7 +4,7 @@ cn:
 
 server.port: 9082
 
-spring.jpa.hibernate.ddl-auto: create
+spring.jpa.hibernate.ddl-auto: update
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/cherrynic?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&verifyServerCertificate=false
