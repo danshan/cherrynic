@@ -6,9 +6,6 @@ ENV DAOCLOUD_TOKEN token
 ENV CHERRYNIC_DATABASE_URL jdbc:mysql://mysql:3306/cherrynic?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&verifyServerCertificate=false
 ENV CHERRYNIC_DATABASE_USERNAME username
 ENV CHERRYNIC_DATABASE_PASSWORD password
-ENV DAOCLOUD_TOKEN token
-ENV DAOCLOUD_TOKEN token
-
 
 ENV PROJ_DIR /tmp/project
 ENV JAR_PATH ${PROJ_DIR}/cherrynic-web/target/application.jar
@@ -20,5 +17,5 @@ WORKDIR ${PROJ_DIR}
 RUN mvn package
 RUN cp ${JAR_PATH} ${DIST_DIR}/application.jar
 
-EXPOSE 8080
+EXPOSE ${SERVER_PORT}
 ENTRYPOINT ["/bin/sh", "-c", "java -Dserver.port=${SERVER_PORT} -Dcn.daocloud.token=${DAOCLOUD_TOKEN} -Djava.security.egd=file:/dev/./urandom -jar ${DIST_DIR}/application.jar"]
