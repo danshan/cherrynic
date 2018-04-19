@@ -98,8 +98,8 @@ public class BabyServiceImpl implements BabyService {
         TaskResult result = new TaskResult();
         result.setResultType(ResultType.RESULT);
         result.setExecuteCode(ExecuteCode.SUCCESS);
-        result.setReply("看我的");
-        result.setActions(Lists.newArrayList(buildSongsAction()));
+        result.setReply("");
+        result.setActions(Lists.newArrayList(buildSongsAction(), buildSongsAction(), buildSongsAction()));
         resultModel.setReturnCode("0");
         resultModel.setReturnValue(result);
         return resultModel;
