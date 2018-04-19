@@ -99,7 +99,9 @@ public class BabyServiceImpl implements BabyService {
         result.setResultType(ResultType.RESULT);
         result.setExecuteCode(ExecuteCode.SUCCESS);
         result.setReply("");
-        result.setActions(Lists.newArrayList(buildSongsAction(), buildSongsAction(), buildSongsAction()));
+        for (int i = 0; i < 10; i++) {
+            result.addAction(buildSongsAction());
+        }
         resultModel.setReturnCode("0");
         resultModel.setReturnValue(result);
         return resultModel;
