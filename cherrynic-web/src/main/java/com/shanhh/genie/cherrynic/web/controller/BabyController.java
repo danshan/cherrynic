@@ -26,11 +26,37 @@ public class BabyController {
     @Resource
     private BabyService babyService;
 
-    @RequestMapping(value = "markAction", method = RequestMethod.POST)
-    public ResultModel<TaskResult> markBowel(@RequestBody String taskQuery) {
+    @RequestMapping(value = "bowel", method = RequestMethod.POST)
+    public ResultModel<TaskResult> bowel(@RequestBody String taskQuery) {
         log.info("taskQuery: {}", taskQuery);
         TaskQuery query = MetaFormat.parseToQuery(taskQuery);
-        return babyService.markAction(query);
+        return babyService.bowel(query);
+    }
+    @RequestMapping(value = "urinate", method = RequestMethod.POST)
+    public ResultModel<TaskResult> urinate(@RequestBody String taskQuery) {
+        log.info("taskQuery: {}", taskQuery);
+        TaskQuery query = MetaFormat.parseToQuery(taskQuery);
+        return babyService.urinate(query);
+    }
+
+    @RequestMapping(value = "bottleFeed", method = RequestMethod.POST)
+    public ResultModel<TaskResult> bottleFeed(@RequestBody String taskQuery) {
+        log.info("taskQuery: {}", taskQuery);
+        TaskQuery query = MetaFormat.parseToQuery(taskQuery);
+        return babyService.bottleFeed(query);
+    }
+
+    /**
+     * 亲喂宝宝
+     *
+     * @param taskQuery
+     * @return
+     */
+    @RequestMapping(value = "breastFeed", method = RequestMethod.POST)
+    public ResultModel<TaskResult> breastFeed(@RequestBody String taskQuery) {
+        log.info("taskQuery: {}", taskQuery);
+        TaskQuery query = MetaFormat.parseToQuery(taskQuery);
+        return babyService.breastFeed(query);
     }
 
     @RequestMapping(value = "playSongs", method = RequestMethod.POST)

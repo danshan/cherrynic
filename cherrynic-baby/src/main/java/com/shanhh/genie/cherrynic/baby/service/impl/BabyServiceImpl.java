@@ -3,29 +3,23 @@ package com.shanhh.genie.cherrynic.baby.service.impl;
 import com.alibaba.da.coin.ide.spi.meta.Action;
 import com.alibaba.da.coin.ide.spi.meta.ExecuteCode;
 import com.alibaba.da.coin.ide.spi.meta.ResultType;
-import com.alibaba.da.coin.ide.spi.meta.SlotEntity;
 import com.alibaba.da.coin.ide.spi.standard.ResultModel;
 import com.alibaba.da.coin.ide.spi.standard.TaskQuery;
 import com.alibaba.da.coin.ide.spi.standard.TaskResult;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.shanhh.genie.cherrynic.baby.repo.ActionLogRepo;
 import com.shanhh.genie.cherrynic.baby.repo.entity.ActionLog;
 import com.shanhh.genie.cherrynic.baby.service.BabyService;
+import com.shanhh.genie.cherrynic.commons.bean.TimeRange;
+import com.shanhh.genie.cherrynic.commons.utils.TaskQueryUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author shanhonghao
@@ -40,32 +34,13 @@ public class BabyServiceImpl implements BabyService {
 
     private static final String ACTION_BOWEL = "bowel";
     private static final String ACTION_URINATE = "urinate";
-    private static final String ACTION_NURSING = "nursing";
+    private static final String ACTION_BOTTLE_FEED = "bottleFee";
+    private static final String ACTION_BREAST_FEED = "breastFeed";
 
     private static final String[] SONG_IDS = {"4126", "4127"};
 
     @Resource
-    private ObjectMapper objectMapper;
-
-    @Override
-    public ResultModel<TaskResult> markAction(TaskQuery query) {
-        Map<String, String> params = collectParams(query);
-        String action = params.get("action");
-        if (StringUtils.isBlank(action)) {
-            return errorResult("我好像没听明白宝宝做了什么");
-        }
-
-        switch (action) {
-            case ACTION_BOWEL:
-                return this.markBowel(query);
-            case ACTION_URINATE:
-                return this.markUrinate(query);
-            case ACTION_NURSING:
-                return this.markNursing(query);
-            default:
-                return errorResult("我好像没听明白宝宝做了什么");
-        }
-    }
+    private TaskQueryUtils taskQueryUtils;
 
     private ResultModel<TaskResult> errorResult(String message) {
         ResultModel<TaskResult> resultModel = new ResultModel<>();
@@ -79,22 +54,22 @@ public class BabyServiceImpl implements BabyService {
         return resultModel;
     }
 
-    private Map<String, String> collectParams(TaskQuery query) {
-        if (query.getSlotEntities() == null) {
-            return Collections.emptyMap();
-        }
-        return query.getSlotEntities().stream().collect(Collectors.toMap(SlotEntity::getIntentParameterName, SlotEntity::getStandardValue));
-    }
-
+    /**
+     * 宝宝大便了
+     *
+     * @param query
+     * @return
+     */
     @Override
-    public ResultModel<TaskResult> markBowel(TaskQuery query) {
-        Date startTime = buildTime(query, "time");
+    public ResultModel<TaskResult> bowel(TaskQuery query) {
+        Date startTime = taskQueryUtils.getTimeParam(query, "time");
         this.saveActionLog(ACTION_BOWEL, 0, startTime, startTime, null);
+        long dailyCountBowel = countByAction(ACTION_BOWEL, startTime);
         ResultModel<TaskResult> resultModel = new ResultModel<>();
         TaskResult result = new TaskResult();
         result.setResultType(ResultType.RESULT);
         result.setExecuteCode(ExecuteCode.SUCCESS);
-        result.setReply("宝宝便便时间记好啦");
+        result.setReply(String.format("好的, 这是今天第%s次拉臭臭", dailyCountBowel));
 
         resultModel.setReturnCode("0");
         resultModel.setReturnValue(result);
@@ -102,29 +77,16 @@ public class BabyServiceImpl implements BabyService {
     }
 
     @Override
-    public ResultModel<TaskResult> markUrinate(TaskQuery query) {
-        Date startTime = buildTime(query, "time");
+    public ResultModel<TaskResult> urinate(TaskQuery query) {
+        Date startTime = taskQueryUtils.getTimeParam(query, "time");
         this.saveActionLog(ACTION_URINATE, 0, startTime, startTime, null);
+        long dailyCountUrinate = countByAction(ACTION_URINATE, startTime);
         ResultModel<TaskResult> resultModel = new ResultModel<>();
         TaskResult result = new TaskResult();
         result.setResultType(ResultType.RESULT);
         result.setExecuteCode(ExecuteCode.SUCCESS);
-        result.setReply("宝宝嘘嘘时间记好啦");
+        result.setReply(String.format("好的, 这是今天第%s次嘘嘘", dailyCountUrinate));
 
-        resultModel.setReturnCode("0");
-        resultModel.setReturnValue(result);
-        return resultModel;
-    }
-
-    @Override
-    public ResultModel<TaskResult> markNursing(TaskQuery query) {
-        Date startTime = buildTime(query, "time");
-        this.saveActionLog(ACTION_NURSING, 0, startTime, startTime, null);
-        ResultModel<TaskResult> resultModel = new ResultModel<>();
-        TaskResult result = new TaskResult();
-        result.setResultType(ResultType.RESULT);
-        result.setExecuteCode(ExecuteCode.SUCCESS);
-        result.setReply("宝宝喂奶时间记好啦");
         resultModel.setReturnCode("0");
         resultModel.setReturnValue(result);
         return resultModel;
@@ -143,6 +105,55 @@ public class BabyServiceImpl implements BabyService {
         return resultModel;
     }
 
+    @Override
+    public ResultModel<TaskResult> breastFeed(TaskQuery query) {
+        TimeRange timeRange = taskQueryUtils.getTimeRangeParam(query, "time");
+        this.saveActionLog(ACTION_BREAST_FEED, 0, timeRange.getStartTime(), timeRange.getEndTime(), null);
+        long dailyCountBreastFeed = countByAction(ACTION_BREAST_FEED, timeRange.getStartTime());
+        long dailyCountBottleFeed = countByAction(ACTION_BOTTLE_FEED, timeRange.getStartTime());
+
+        ResultModel<TaskResult> resultModel = new ResultModel<>();
+        TaskResult result = new TaskResult();
+        result.setResultType(ResultType.RESULT);
+        result.setExecuteCode(ExecuteCode.SUCCESS);
+        result.setReply(String.format("好的, 这是今天第%s次亲喂, 一共喂了%s次", dailyCountBreastFeed, (dailyCountBottleFeed + dailyCountBreastFeed)));
+        resultModel.setReturnCode("0");
+        resultModel.setReturnValue(result);
+        return resultModel;
+    }
+
+    @Override
+    public ResultModel<TaskResult> bottleFeed(TaskQuery query) {
+        Date startTime = taskQueryUtils.getTimeParam(query, "time");
+        int amount = taskQueryUtils.getInt(query, "amount");
+        this.saveActionLog(ACTION_BOTTLE_FEED, amount, startTime, startTime, null);
+        long dailyCountBreastFeed = countByAction(ACTION_BREAST_FEED, startTime);
+        long dailyCountBottleFeed = countByAction(ACTION_BOTTLE_FEED, startTime);
+
+        ResultModel<TaskResult> resultModel = new ResultModel<>();
+        TaskResult result = new TaskResult();
+        result.setResultType(ResultType.RESULT);
+        result.setExecuteCode(ExecuteCode.SUCCESS);
+        result.setReply(String.format("好的, 这是今天第%s次奶瓶喂奶, 一共喂了%s次", dailyCountBottleFeed, (dailyCountBottleFeed + dailyCountBreastFeed)));
+        resultModel.setReturnCode("0");
+        resultModel.setReturnValue(result);
+        return resultModel;
+    }
+
+    private long countByAction(String action, Date startTime) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startTime);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        Date fromTime = cal.getTime();
+
+        cal.add(Calendar.DATE, 1);
+        Date toTime = cal.getTime();
+
+        return actionLogRepo.countByActionAndStartTime(action, fromTime, toTime);
+    }
+
     private Action buildSongsAction() {
         Action action = new Action("audioPlayGenieSource");
         action.addProperty("audioGenieId", SONG_IDS[RandomUtils.nextInt(SONG_IDS.length)]);
@@ -157,26 +168,6 @@ public class BabyServiceImpl implements BabyService {
         actionLog.setStartTime(startTime);
         actionLog.setEndTime(endTime);
         actionLogRepo.save(actionLog);
-    }
-
-    private Date buildTime(TaskQuery query, String param) {
-        String timeParam = collectParams(query).get(param);
-        if (StringUtils.isBlank(timeParam)) {
-            return new Date();
-        }
-
-        try {
-            Map<String, String> time = objectMapper.readValue(timeParam, Map.class);
-            LocalTime localTime = LocalTime.parse(time.get("iDateString"), DateTimeFormatter.ofPattern("HH:mm:ss"));
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.HOUR_OF_DAY, localTime.getHour());
-            cal.set(Calendar.MINUTE, localTime.getMinute());
-            cal.set(Calendar.SECOND, localTime.getSecond());
-            return cal.getTime();
-        } catch (Exception e) {
-            log.error("format time failed, {}", timeParam);
-            return new Date();
-        }
     }
 
 }

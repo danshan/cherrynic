@@ -10,22 +10,15 @@ import com.alibaba.da.coin.ide.spi.standard.TaskResult;
  */
 public interface BabyService {
 
-    ResultModel<TaskResult> markAction(TaskQuery query);
-
     /**
      * 标记大便
      */
-    ResultModel<TaskResult> markBowel(TaskQuery query);
+    ResultModel<TaskResult> bowel(TaskQuery query);
 
     /**
      * 标记小便
      */
-    ResultModel<TaskResult> markUrinate(TaskQuery query);
-
-    /**
-     * 标记喂奶
-     */
-    ResultModel<TaskResult> markNursing(TaskQuery query);
+    ResultModel<TaskResult> urinate(TaskQuery query);
 
     /**
      * 播放儿歌
@@ -34,4 +27,20 @@ public interface BabyService {
      * @return
      */
     ResultModel<TaskResult> playSongs(TaskQuery query);
+
+    /**
+     * 亲喂宝宝
+     *
+     * @param query
+     * @return
+     */
+    ResultModel<TaskResult> breastFeed(TaskQuery query);
+
+    /**
+     * 奶瓶喂奶
+     *
+     * @param query
+     * @return
+     */
+    ResultModel<TaskResult> bottleFeed(TaskQuery query);
 }
