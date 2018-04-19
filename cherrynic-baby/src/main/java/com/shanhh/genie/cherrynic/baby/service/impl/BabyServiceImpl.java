@@ -37,7 +37,7 @@ public class BabyServiceImpl implements BabyService {
     private static final String ACTION_BOTTLE_FEED = "bottleFee";
     private static final String ACTION_BREAST_FEED = "breastFeed";
 
-    private static final String[] SONG_IDS = {"4128", "4129"};
+    private static final String[] SONG_IDS = {"4218", "4219"};
 
     @Resource
     private TaskQueryUtils taskQueryUtils;
