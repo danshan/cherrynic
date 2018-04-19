@@ -37,7 +37,7 @@ public class BabyServiceImpl implements BabyService {
     private static final String ACTION_BOTTLE_FEED = "bottleFee";
     private static final String ACTION_BREAST_FEED = "breastFeed";
 
-    private static final String[] SONG_IDS = {"4126", "4127"};
+    private static final String[] SONG_IDS = {"4128", "4129"};
 
     @Resource
     private TaskQueryUtils taskQueryUtils;
@@ -98,7 +98,7 @@ public class BabyServiceImpl implements BabyService {
         TaskResult result = new TaskResult();
         result.setResultType(ResultType.RESULT);
         result.setExecuteCode(ExecuteCode.SUCCESS);
-        result.setReply("");
+        result.setReply("看我的");
         result.setActions(Lists.newArrayList(buildSongsAction()));
         resultModel.setReturnCode("0");
         resultModel.setReturnValue(result);
